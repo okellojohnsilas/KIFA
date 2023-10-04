@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIFA FOOTBALL KYOTO</title>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navbar start -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-center" href="#">
+                <!-- <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" class="me-2" height="20"
+                    alt="MDB Logo" loading="lazy" /> -->
+                <small>KIFA FOOTBALL</small>
+            </a>
+        </div>
+    </nav>
+    <!-- Navbar start -->
+
+    <div class="container p-5">
+        <button id="clearLocalStorageButton" class="btn btn-danger">Clear Local Storage</button>
+        <div class="form">
+            <div class="card text-center">
+                <div class="card-header">Featured</div>
+                <div class="card-body">
+                    <form action="" method="POST" id="myForm">
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <input type="number" id="team_number" name="team_number" class="form-control" />
+                            <label class="form-label" for="team_number">No of teams</label>
+                        </div>
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                    </form>
+                </div>
+                <div class="card-footer text-muted">2 days ago</div>
+            </div>
+        </div>
+        <div class="fixtures">
+            <span id="teamCount"></span> teams
+        </div>
+        <!-- </div>
+        </div> -->
+    </div>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
+    <script>
+        // Add an event listener to the form submission
+        document.getElementById('myForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the value from the input field
+            const teamNumber = document.getElementById('team_number').value;
+
+            // Store the value in local storage
+            // Check if 'teamNumber' is stored in local storage
+            // Store 'teamNumber' in local storage
+            localStorage.setItem('teamNumber', teamNumber);
+
+            // Check if 'teamNumber' is stored in local storage
+            if (localStorage.getItem('teamNumber') !== null) {
+                // Reload the page
+                location.reload();
+            }
+            else {
+                // Data is not stored, you can choose to show an alert or perform other actions
+                alert('Data is not stored in local storage.');
+            }
+
+            console.log(alert);
+            // Optional: Redirect to another page or perform any other actions
+            // window.location.href = 'another-page.html';
+        });// Retrieve the number of teams from local storage
+        const numberOfTeams = localStorage.getItem('teamNumber');
+
+        function generateFixtures(teams) {
+            if (teams < 2) {
+                return []; // Cannot generate fixtures with less than 2 teams
+            }
+
+            const fixtures = [];
+
+            for (let team1 = 1; team1 <= teams; team1++) {
+                for (let team2 = team1 + 1; team2 <= teams; team2++) {
+                    fixtures.push([team1, team2]);
+                }
+            }
+
+            return fixtures;
+        }
+
+        // Example: Generate fixtures for 4 teams
+        // const numberOfTeams = 4;
+        const fixtures = generateFixtures(numberOfTeams);
+
+        // Get a reference to the "fixtures" div
+        const fixturesDiv = document.querySelector('.fixtures');
+
+        // Clear the content of the "fixtures" div
+        fixturesDiv.innerHTML = '';
+
+        // Display fixtures in the "fixtures" div
+        fixturesDiv.innerHTML += '<h2>Fixtures</h2>';
+        fixtures.forEach((match, matchIndex) => {
+            fixturesDiv.innerHTML += `<p>Match ${matchIndex + 1}: Team ${match[0]} vs. Team ${match[1]}</p>`;
+        });
+        // Add an event listener to clear local storage
+        document.getElementById('clearLocalStorageButton').addEventListener('click', function () {
+            localStorage.clear();
+            // localStorage.removeItem('teamNumber');
+            // Reload the page
+            location.reload();
+        });
+
+    </script>
+</body>
+
+</html>
